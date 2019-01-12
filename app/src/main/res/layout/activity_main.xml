@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="7dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button_simple_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIMPLE NOTIFICATION" />
+
+    <Button
+        android:id="@+id/button_simple_notification_with_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIMPLE NOTIFICATION With AVATAR" />
+
+    <Button
+        android:id="@+id/button_simple_notification_with_avatar_and_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIMPLE NOTIFICATION With AVATAR AND BUTTONS" />
+
+    <Button
+        android:id="@+id/button_big_picture_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BIG PICTURE NOTIFICATION" />
+
+    <Button
+        android:id="@+id/button_big_text_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BIG TEXT NOTIFICATION" />
+
+    <Button
+        android:id="@+id/button_big_video_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BIG VIDEO NOTIFICATION" />
+
+
+</LinearLayout>
