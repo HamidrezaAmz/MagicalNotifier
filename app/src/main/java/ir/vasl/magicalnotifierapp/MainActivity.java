@@ -54,8 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showSimpleNotificationWithAvatarAndButton();
                 break;
             case R.id.button_big_picture_notification:
+                showBigPictureNotification();
                 break;
             case R.id.button_big_text_notification:
+                showBigTextNotification();
                 break;
             case R.id.button_big_video_notification:
                 break;
@@ -87,6 +89,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setTitle("This is title :p")
                 .setSubTitle("This is simple notification with avatar and button ;)")
                 .setActionButtonOne(new ActionButton("Update", EnumNotificationAction.OPEN_URL, "https://www.google.com/"))
+                .show();
+    }
+
+    private void showBigPictureNotification() {
+
+        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+                .setNotificationType(EnumNotificationType.BIG_PICTURE)
+                .setTitle("This is title :p")
+                .setSubTitle("This simple notification ;)")
+                .show();
+    }
+
+    private void showBigTextNotification() {
+
+        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+                .setNotificationType(EnumNotificationType.BIG_TEXT)
+                .setTitle("This is title :p")
+                .setSubTitle("This simple notification ;)")
+                .setBigText("One of the most amazing things about Design Support Library is that we can create lively animated UIs with some simple configuration in XML. No code nor deep control about scrolls is required, so the process becomes really easy. We saw that Coordinator Layout is the central point the other components rely on to work properly, and that AppBarLayout helps the toolbar and other components to react to scroll changes. Today, I’ll show you how to use Collapsing Toolbar Layout to create awesome effects in a very easy way.")
                 .show();
     }
 

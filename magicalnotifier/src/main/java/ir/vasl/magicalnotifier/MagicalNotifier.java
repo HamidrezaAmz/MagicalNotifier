@@ -1,5 +1,6 @@
 package ir.vasl.magicalnotifier;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,7 +10,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 
+import java.util.concurrent.ExecutionException;
+
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import ir.vasl.Utils.PublicFunctions;
 import ir.vasl.globalEnums.EnumNotificationType;
 import ir.vasl.globalObjects.ActionButton;
@@ -160,6 +164,18 @@ public class MagicalNotifier {
                 case SIMPLE_WITH_AVATAR_AND_BUTTON:
                     showSimpleNotificationWithAvatarAndButton();
                     break;
+                case BIG_PICTURE:
+                    try {
+                        showBigPictureNotification();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case BIG_TEXT:
+                    showBigTextNotification();
+                    break;
             }
             return new MagicalNotifier(context, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, avatar, button, bigPictureUrl, bigText, bigVideoUrl);
         }
@@ -172,7 +188,160 @@ public class MagicalNotifier {
                     .setSmallIcon(smallIcon)
                     .setContentTitle(title)
                     .setContentText(subTitle)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int color = 0x008000;
+                mBuilder.setColor(color);
+            }
+
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                        NOTIFICATION_CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_HIGH);
+                mNotificationManager.createNotificationChannel(channel);
+                mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+            }
+
+            // notificationId is a unique int for each notification that you must define
+            mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+        }
+
+        private void showSimpleNotificationWithAvatar() {
+            if (smallIcon == -1)
+                smallIcon = R.drawable.ic_default_notification;
+
+            if (largeIcon == -1)
+                largeIcon = R.drawable.ic_default_large_notification;
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon))
+                    .setContentTitle(title)
+                    .setContentText(subTitle)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int color = 0xC0C0C0;
+                mBuilder.setColor(color);
+            }
+
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                        NOTIFICATION_CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_HIGH);
+                mNotificationManager.createNotificationChannel(channel);
+                mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+            }
+
+            // notificationId is a unique int for each notification that you must define
+            mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+        }
+
+        private void showSimpleNotificationWithAvatarAndButton() {
+            if (smallIcon == -1)
+                smallIcon = R.drawable.ic_default_notification;
+
+            if (largeIcon == -1)
+                largeIcon = R.drawable.ic_default_large_notification;
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon))
+                    .setContentTitle(title)
+                    .setContentText(subTitle)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .setColor(ContextCompat.getColor(context, R.color.primary));
+
+            if (actionButtonOne != null) {
+                switch (actionButtonOne.getEnumNotificationAction()) {
+                    case OPEN_URL:
+                        Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(actionButtonOne.getTargetUrl()));
+                        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+                        mBuilder.addAction(actionButtonOne.getIcon(), actionButtonOne.getTitle(), pendingIntent);
+                        break;
+
+                    case OPEN_APP:
+                        break;
+                }
+            }
+
+            if (actionButtonTwo != null) {
+                switch (actionButtonTwo.getEnumNotificationAction()) {
+                    case OPEN_URL:
+                        Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(actionButtonTwo.getTargetUrl()));
+                        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+                        mBuilder.addAction(actionButtonTwo.getIcon(), actionButtonTwo.getTitle(), pendingIntent);
+                        break;
+
+                    case OPEN_APP:
+                        break;
+                }
+            }
+
+            if (actionButtonThree != null) {
+                // mBuilder.addAction(actionButtonThree.getIcon(), actionButtonThree.getTitle(), null);
+                switch (actionButtonThree.getEnumNotificationAction()) {
+                    case OPEN_URL:
+                        Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(actionButtonThree.getTargetUrl()));
+                        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+                        mBuilder.addAction(actionButtonThree.getIcon(), actionButtonThree.getTitle(), pendingIntent);
+                        break;
+
+                    case OPEN_APP:
+                        break;
+                }
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int color = 0xC0C0C0;
+                mBuilder.setColor(color);
+            }
+
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                        NOTIFICATION_CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_HIGH);
+                mNotificationManager.createNotificationChannel(channel);
+                mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+            }
+
+            // notificationId is a unique int for each notification that you must define
+            mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+        }
+
+        private void showBigPictureNotification() throws ExecutionException, InterruptedException {
+            if (smallIcon == -1)
+                smallIcon = R.drawable.ic_default_notification;
+
+            // NotificationCompat.BigPictureStyle bpStyle = new NotificationCompat.BigPictureStyle();
+            // bpStyle.bigPicture(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_big_picture_default)).build();
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+                    .setSmallIcon(smallIcon)
+                    .setContentTitle(title)
+                    .setContentText(subTitle)
+                    .setPriority(Notification.PRIORITY_MAX);
+
+            /* FutureTarget<Bitmap> bitmapFutureTarget = GlideApp
+                    .with(context)
+                    .asBitmap()
+                    .load("https://www.androidhive.info/wp-content/uploads/2018/09/android-logging-using-timber-min.jpg").submit();
+            Bitmap bitmap = bitmapFutureTarget.get();
+
+            mBuilder.setLargeIcon(bitmap);
+
+            GlideApp.with(context).clear(bitmapFutureTarget); */
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 int color = 0x008000;
@@ -194,22 +363,19 @@ public class MagicalNotifier {
             mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
         }
 
-        private void showSimpleNotificationWithAvatar() {
+        private void showBigTextNotification() {
             if (smallIcon == -1)
                 smallIcon = R.drawable.ic_default_notification;
 
-            if (largeIcon == -1)
-                largeIcon = R.drawable.ic_default_large_notification;
-
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
                     .setSmallIcon(smallIcon)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon))
                     .setContentTitle(title)
                     .setContentText(subTitle)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int color = 0xC0C0C0;
+                int color = 0x008000;
                 mBuilder.setColor(color);
             }
 
@@ -219,7 +385,7 @@ public class MagicalNotifier {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                         NOTIFICATION_CHANNEL_NAME,
-                        NotificationManager.IMPORTANCE_DEFAULT);
+                        NotificationManager.IMPORTANCE_HIGH);
                 mNotificationManager.createNotificationChannel(channel);
                 mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             }
@@ -227,62 +393,6 @@ public class MagicalNotifier {
             // notificationId is a unique int for each notification that you must define
             mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
         }
-
-        private void showSimpleNotificationWithAvatarAndButton() {
-            if (smallIcon == -1)
-                smallIcon = R.drawable.ic_default_notification;
-
-            if (largeIcon == -1)
-                largeIcon = R.drawable.ic_default_large_notification;
-
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
-                    .setSmallIcon(smallIcon)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon))
-                    .setContentTitle(title)
-                    .setContentText(subTitle)
-                    .setPriority(NotificationCompat.PRIORITY_MAX);
-
-            if (actionButtonOne != null) {
-                switch (actionButtonOne.getEnumNotificationAction()) {
-                    case OPEN_URL:
-                        Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(actionButtonOne.getTargetUrl()));
-                        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-                        mBuilder.addAction(actionButtonOne.getIcon(), actionButtonOne.getTitle(), pendingIntent);
-                        break;
-
-                    case OPEN_APP:
-                        break;
-                }
-            }
-
-            if (actionButtonTwo != null) {
-                mBuilder.addAction(actionButtonTwo.getIcon(), actionButtonTwo.getTitle(), null);
-            }
-
-            if (actionButtonThree != null) {
-                mBuilder.addAction(actionButtonThree.getIcon(), actionButtonThree.getTitle(), null);
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int color = 0xC0C0C0;
-                mBuilder.setColor(color);
-            }
-
-            NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
-                        NOTIFICATION_CHANNEL_NAME,
-                        NotificationManager.IMPORTANCE_DEFAULT);
-                mNotificationManager.createNotificationChannel(channel);
-                mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
-            }
-
-            // notificationId is a unique int for each notification that you must define
-            mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
-        }
-
 
     }
 
