@@ -39,10 +39,9 @@
         android:text="BIG TEXT NOTIFICATION" />
 
     <Button
-        android:id="@+id/button_big_video_notification"
+        android:id="@+id/button_smart_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BIG VIDEO NOTIFICATION" />
-
+        android:text="SMART NOTIFICATION" />
 
 </LinearLayout>

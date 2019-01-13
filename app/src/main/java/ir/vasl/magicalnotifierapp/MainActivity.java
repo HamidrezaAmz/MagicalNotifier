@@ -12,7 +12,7 @@ import ir.vasl.magicalnotifier.MagicalNotifier;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button buttonSimpleNotification, buttonSimpleNotificationWithAvatar, buttonSimpleNotificationWithAvatarAndButton, buttonBigPictureNotification, buttonBigTextNotification, buttonBigVideoNotification;
+    Button buttonSimpleNotification, buttonSimpleNotificationWithAvatar, buttonSimpleNotificationWithAvatarAndButton, buttonBigPictureNotification, buttonBigTextNotification, buttonSmartNotification;
 
     public native String stringFromJNI();
 
@@ -36,10 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonBigPictureNotification.setOnClickListener(this);
         buttonBigTextNotification = findViewById(R.id.button_big_text_notification);
         buttonBigTextNotification.setOnClickListener(this);
-        buttonBigVideoNotification = findViewById(R.id.button_big_video_notification);
-        buttonBigVideoNotification.setOnClickListener(this);
+        buttonSmartNotification = findViewById(R.id.button_smart_notification);
+        buttonSmartNotification.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -59,14 +58,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_big_text_notification:
                 showBigTextNotification();
                 break;
-            case R.id.button_big_video_notification:
+            case R.id.button_smart_notification:
+                showSmartNotification();
                 break;
         }
     }
 
     private void showSimpleNotification() {
 
-        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+        new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.SIMPLE)
                 .setTitle("This is title :p")
                 .setSubTitle("This simple notification ;)")
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showSimpleNotificationWithAvatar() {
 
-        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+        new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.SIMPLE_WITH_AVATAR)
                 .setTitle("This is title :p")
                 .setSubTitle("This is simple notification with avatar ;)")
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showSimpleNotificationWithAvatarAndButton() {
 
-        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+        new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.SIMPLE_WITH_AVATAR_AND_BUTTON)
                 .setTitle("This is title :p")
                 .setSubTitle("This is simple notification with avatar and button ;)")
@@ -94,20 +94,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showBigPictureNotification() {
 
-        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+        new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.BIG_PICTURE)
                 .setTitle("This is title :p")
                 .setSubTitle("This simple notification ;)")
+                .setBigPictureUrl("https://www.androidhive.info/wp-content/uploads/2018/09/android-logging-using-timber-min.jpg")
                 .show();
     }
 
     private void showBigTextNotification() {
 
-        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+        new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.BIG_TEXT)
                 .setTitle("This is title :p")
                 .setSubTitle("This simple notification ;)")
                 .setBigText("One of the most amazing things about Design Support Library is that we can create lively animated UIs with some simple configuration in XML. No code nor deep control about scrolls is required, so the process becomes really easy. We saw that Coordinator Layout is the central point the other components rely on to work properly, and that AppBarLayout helps the toolbar and other components to react to scroll changes. Today, I’ll show you how to use Collapsing Toolbar Layout to create awesome effects in a very easy way.")
+                .show();
+    }
+
+    private void showSmartNotification() {
+        new MagicalNotifier.Builder(this)
+                .setTitle("بروزرسانی")
+                .setSubTitle("برای به روز رسانی کلیک کنید")
+                .setBigText("با بروزرسانی نرم افزار خود از جدیدترین امکانات استفاده می کنید")
+                .setBigPictureUrl("https://www.androidhive.info/wp-content/uploads/2018/09/android-logging-using-timber-min.jpg")
                 .show();
     }
 

@@ -8,7 +8,8 @@ public enum EnumNotificationType {
     SIMPLE_WITH_AVATAR_AND_BUTTON("simple_with_avatar_and_button"),
     BIG_PICTURE("big_picture"),
     BIG_TEXT("big_text"),
-    BIG_VIDEO("big_video"),;
+    BIG_VIDEO("big_video"),
+    SMART("smart"),;
 
     private String value;
 
