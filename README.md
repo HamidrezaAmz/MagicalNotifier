@@ -36,3 +36,13 @@ dependencies {
 }
 ```
 
+### Here we go for implementation
+
+```java
+new MagicalNotifier.Builder(this)
+                .setNotificationType(EnumNotificationType.SIMPLE)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .show();
+```
+
