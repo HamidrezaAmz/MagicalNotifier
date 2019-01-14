@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.text.format.DateUtils;
+import android.widget.RemoteViews;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -22,6 +24,7 @@ import ir.vasl.Utils.PublicFunctions;
 import ir.vasl.globalEnums.EnumNotificationType;
 import ir.vasl.globalObjects.ActionButton;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
 import static ir.vasl.Utils.PublicValues.NOTIFICATION_CHANNEL_ID;
 import static ir.vasl.Utils.PublicValues.NOTIFICATION_CHANNEL_NAME;
 import static ir.vasl.Utils.PublicValues.NOTIFICATION_CHANNEL_SIMPLE;
@@ -43,9 +46,9 @@ public class MagicalNotifier {
     private String subTitle;
     private String avatar;
     private String button;
-    private String bigPictureUrl;
-    private String bigText;
-    private String bigVideoUrl;
+    private String bigPictureUrl = null;
+    private String bigText = null;
+    private String bigVideoUrl = null;
 
     public MagicalNotifier() {
     }
@@ -72,9 +75,9 @@ public class MagicalNotifier {
         private Context context;
         private int smallIcon = -1;
         private int largeIcon = -1;
-        private ActionButton actionButtonOne = null;
-        private ActionButton actionButtonTwo = null;
-        private ActionButton actionButtonThree = null;
+        private ActionButton actionButtonOne;
+        private ActionButton actionButtonTwo;
+        private ActionButton actionButtonThree;
         private EnumNotificationType notificationType = EnumNotificationType.SMART;
         private String title;
         private String subTitle;
@@ -174,6 +177,9 @@ public class MagicalNotifier {
                 case BIG_TEXT:
                     showBigTextNotification();
                     break;
+                case CUSTOM:
+                    showCustomNotification();
+                    break;
                 case undefined:
                 case SMART:
                     showSmartNotification();
@@ -199,7 +205,7 @@ public class MagicalNotifier {
             }
 
             NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
@@ -233,7 +239,7 @@ public class MagicalNotifier {
             }
 
             NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
@@ -309,7 +315,7 @@ public class MagicalNotifier {
             }
 
             NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
@@ -355,7 +361,7 @@ public class MagicalNotifier {
                             mBuilder.setStyle(bigPictureStyle);
 
                             NotificationManager mNotificationManager =
-                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
@@ -388,7 +394,7 @@ public class MagicalNotifier {
             }
 
             NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
@@ -410,7 +416,6 @@ public class MagicalNotifier {
                     .setSmallIcon(smallIcon)
                     .setContentTitle(title)
                     .setContentText(subTitle)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon))
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
 
             if (largeIcon != -1)
@@ -461,12 +466,55 @@ public class MagicalNotifier {
                 mBuilder.setColor(color);
             }
 
-            if (bigPictureUrl != "") {
+            if (bigPictureUrl != null) {
+                GlideApp
+                        .with(context)
+                        .asBitmap()
+                        .load(bigPictureUrl)
+                        .centerCrop()
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle().bigPicture(resource);
+                                bigPictureStyle.setSummaryText(subTitle);
+                                mBuilder.setStyle(bigPictureStyle);
+
+                                NotificationManager mNotificationManager =
+                                        (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                                            NOTIFICATION_CHANNEL_NAME,
+                                            NotificationManager.IMPORTANCE_HIGH);
+                                    mNotificationManager.createNotificationChannel(channel);
+                                    mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                                }
+
+                                // notificationId is a unique int for each notification that you must define
+                                mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+                            }
+                        });
+            } else if (bigText != null) {
+                mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+
+                NotificationManager mNotificationManager =
+                        (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                            NOTIFICATION_CHANNEL_NAME,
+                            NotificationManager.IMPORTANCE_HIGH);
+                    mNotificationManager.createNotificationChannel(channel);
+                    mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                }
+
+                // notificationId is a unique int for each notification that you must define
+                mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
 
             } else {
 
                 NotificationManager mNotificationManager =
-                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                        (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
@@ -480,6 +528,32 @@ public class MagicalNotifier {
                 mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
             }
         }
-    }
 
+        private void showCustomNotification() {
+            RemoteViews expandedView = new RemoteViews(context.getPackageName(), R.layout.layout_expanded_notification);
+            RemoteViews collapsedView = new RemoteViews(context.getPackageName(), R.layout.layout_collapsed_notification);
+
+            expandedView.setImageViewResource(R.id.big_icon, R.drawable.ic_default_large_notification);
+            expandedView.setTextViewText(R.id.timestamp, DateUtils.formatDateTime(context, System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME));
+
+            if (bigText != null)
+                expandedView.setTextViewText(R.id.notification_message, bigText);
+
+            if (smallIcon == -1)
+                smallIcon = R.drawable.ic_default_notification;
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+                    .setSmallIcon(smallIcon)
+                    .setContentTitle(title)
+                    .setContentText(subTitle)
+                    .setAutoCancel(true)
+                    .setCustomContentView(collapsedView)
+                    .setCustomBigContentView(expandedView)
+                    .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
+
+            NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(PublicFunctions.getNotificationID(), builder.build());
+
+        }
+    }
 }

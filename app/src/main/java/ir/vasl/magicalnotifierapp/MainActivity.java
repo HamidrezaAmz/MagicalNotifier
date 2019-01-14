@@ -12,7 +12,15 @@ import ir.vasl.magicalnotifier.MagicalNotifier;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button buttonSimpleNotification, buttonSimpleNotificationWithAvatar, buttonSimpleNotificationWithAvatarAndButton, buttonBigPictureNotification, buttonBigTextNotification, buttonSmartNotification;
+    private String NOTIFICATION_TITLE = "This notification title";
+    private String NOTIFICATION_SUB_TITLE = "This is notification subTitle!";
+
+    Button buttonSimpleNotification;
+    Button buttonSimpleNotificationWithAvatar;
+    Button buttonSimpleNotificationWithAvatarAndButton;
+    Button buttonBigPictureNotification, buttonBigTextNotification;
+    Button buttonSmartNotification;
+    Button buttonCustomNotification;
 
     public native String stringFromJNI();
 
@@ -38,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonBigTextNotification.setOnClickListener(this);
         buttonSmartNotification = findViewById(R.id.button_smart_notification);
         buttonSmartNotification.setOnClickListener(this);
+        buttonCustomNotification = findViewById(R.id.button_custom_notification);
+        buttonCustomNotification.setOnClickListener(this);
     }
 
     @Override
@@ -61,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_smart_notification:
                 showSmartNotification();
                 break;
+            case R.id.button_custom_notification:
+                showCustomNotification();
+                break;
         }
     }
 
@@ -68,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.SIMPLE)
-                .setTitle("This is title :p")
-                .setSubTitle("This simple notification ;)")
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .show();
     }
 
@@ -77,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.SIMPLE_WITH_AVATAR)
-                .setTitle("This is title :p")
-                .setSubTitle("This is simple notification with avatar ;)")
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .show();
     }
 
@@ -86,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.SIMPLE_WITH_AVATAR_AND_BUTTON)
-                .setTitle("This is title :p")
-                .setSubTitle("This is simple notification with avatar and button ;)")
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .setActionButtonOne(new ActionButton("Update", EnumNotificationAction.OPEN_URL, "https://www.google.com/"))
                 .show();
     }
@@ -96,8 +109,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.BIG_PICTURE)
-                .setTitle("This is title :p")
-                .setSubTitle("This simple notification ;)")
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .setBigPictureUrl("https://www.androidhive.info/wp-content/uploads/2018/09/android-logging-using-timber-min.jpg")
                 .show();
     }
@@ -106,18 +119,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.BIG_TEXT)
-                .setTitle("This is title :p")
-                .setSubTitle("This simple notification ;)")
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .setBigText("One of the most amazing things about Design Support Library is that we can create lively animated UIs with some simple configuration in XML. No code nor deep control about scrolls is required, so the process becomes really easy. We saw that Coordinator Layout is the central point the other components rely on to work properly, and that AppBarLayout helps the toolbar and other components to react to scroll changes. Today, I’ll show you how to use Collapsing Toolbar Layout to create awesome effects in a very easy way.")
                 .show();
     }
 
     private void showSmartNotification() {
         new MagicalNotifier.Builder(this)
-                .setTitle("بروزرسانی")
-                .setSubTitle("برای به روز رسانی کلیک کنید")
-                .setBigText("با بروزرسانی نرم افزار خود از جدیدترین امکانات استفاده می کنید")
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .setBigPictureUrl("https://www.androidhive.info/wp-content/uploads/2018/09/android-logging-using-timber-min.jpg")
+                .setActionButtonOne(new ActionButton("Update", EnumNotificationAction.OPEN_URL, "https://www.google.com/"))
+                .show();
+    }
+
+    private void showCustomNotification() {
+        new MagicalNotifier.Builder(this)
+                .setNotificationType(EnumNotificationType.CUSTOM)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .show();
     }
 

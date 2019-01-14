@@ -9,7 +9,8 @@ public enum EnumNotificationType {
     BIG_PICTURE("big_picture"),
     BIG_TEXT("big_text"),
     BIG_VIDEO("big_video"),
-    SMART("smart"),;
+    SMART("smart"),
+    CUSTOM("custom"),;
 
     private String value;
 
