@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setNotificationType(EnumNotificationType.SIMPLE_WITH_AVATAR)
                 .setTitle(NOTIFICATION_TITLE)
                 .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .setLargeIcon(R.drawable.ic_launcher_background)
                 .show();
     }
 
@@ -129,8 +130,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new MagicalNotifier.Builder(this)
                 .setTitle(NOTIFICATION_TITLE)
                 .setSubTitle(NOTIFICATION_SUB_TITLE)
-                .setBigPictureUrl("https://www.androidhive.info/wp-content/uploads/2018/09/android-logging-using-timber-min.jpg")
-                .setActionButtonOne(new ActionButton("Update", EnumNotificationAction.OPEN_URL, "https://www.google.com/"))
                 .show();
     }
 

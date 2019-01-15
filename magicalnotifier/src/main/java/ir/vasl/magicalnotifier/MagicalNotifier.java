@@ -41,10 +41,9 @@ public class MagicalNotifier {
     private ActionButton actionButtonOne = null;
     private ActionButton actionButtonTwo = null;
     private ActionButton actionButtonThree = null;
-    private EnumNotificationType notificationType;
+    private EnumNotificationType notificationType = EnumNotificationType.SMART;
     private String title;
     private String subTitle;
-    private String avatar;
     private String button;
     private String bigPictureUrl = null;
     private String bigText = null;
@@ -53,7 +52,7 @@ public class MagicalNotifier {
     public MagicalNotifier() {
     }
 
-    public MagicalNotifier(Context context, int smallIcon, int largeIcon, ActionButton actionButtonOne, ActionButton actionButtonTwo, ActionButton actionButtonThree, EnumNotificationType notificationType, String title, String subTitle, String avatar, String button, String bigPictureUrl, String bigText, String bigVideoUrl) {
+    public MagicalNotifier(Context context, int smallIcon, int largeIcon, ActionButton actionButtonOne, ActionButton actionButtonTwo, ActionButton actionButtonThree, EnumNotificationType notificationType, String title, String subTitle, String button, String bigPictureUrl, String bigText, String bigVideoUrl) {
         this.context = context;
         this.smallIcon = smallIcon;
         this.largeIcon = largeIcon;
@@ -63,7 +62,6 @@ public class MagicalNotifier {
         this.notificationType = notificationType;
         this.title = title;
         this.subTitle = subTitle;
-        this.avatar = avatar;
         this.button = button;
         this.bigPictureUrl = bigPictureUrl;
         this.bigText = bigText;
@@ -81,7 +79,6 @@ public class MagicalNotifier {
         private EnumNotificationType notificationType = EnumNotificationType.SMART;
         private String title;
         private String subTitle;
-        private String avatar;
         private String button;
         private String bigPictureUrl;
         private String bigText;
@@ -131,11 +128,6 @@ public class MagicalNotifier {
             return this;
         }
 
-        public Builder setAvatar(String avatar) {
-            this.avatar = avatar;
-            return this;
-        }
-
         public Builder setButton(String button) {
             this.button = button;
             return this;
@@ -157,7 +149,7 @@ public class MagicalNotifier {
         }
 
         public MagicalNotifier build() {
-            return new MagicalNotifier(context, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, avatar, button, bigPictureUrl, bigText, bigVideoUrl);
+            return new MagicalNotifier(context, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
         }
 
         public MagicalNotifier show() {
@@ -186,7 +178,7 @@ public class MagicalNotifier {
                     break;
             }
 
-            return new MagicalNotifier(context, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, avatar, button, bigPictureUrl, bigText, bigVideoUrl);
+            return new MagicalNotifier(context, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
         }
 
         private void showSimpleNotification() {
