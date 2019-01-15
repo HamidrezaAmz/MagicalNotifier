@@ -10,9 +10,11 @@ This is a helper library for showing notifications on android devices in an easy
 
 These instructions will help you to use this library inside your projects
 
+
 ### Prerequisites
 
 This library was built with **androidX**, so you should migrate into androidX to use this library with out any problem. For migration you can use [Migrating to AndroidX](https://developer.android.com/jetpack/androidx/migrate)
+
 
 ### Installing
 
@@ -50,6 +52,7 @@ dependencies {
 | `bigPictureUrl` | Big picture **url**, notification will show after downloading picture |
 | `bigText` | Big text variable, you can set big text into it |
 | `EnumNotificationType` | If you want to use assumption notification types you can use **EnumNotificationType** |
+
 
 ### Here we go for implementation
 
