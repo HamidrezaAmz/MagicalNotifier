@@ -48,7 +48,7 @@ new MagicalNotifier.Builder(this)
                 .show();
 ```
 
-![Alt text](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/notification_simple.jpg "Optional title")
+![Simple notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/notification_simple.jpg "Simple notification")
 
 2. Simple notification with avatar (res)
 
@@ -59,7 +59,7 @@ new MagicalNotifier.Builder(this)
                 .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .show();
 ```
-
+![Simple notification with avatar](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/notification_simple_with_avatar.jpg "Simple notification with avatar")
 
 
 
