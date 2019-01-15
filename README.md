@@ -38,10 +38,18 @@ dependencies {
 
 ### Properties
 
-| Command | Description |
+| Variables | Description |
 | --- | --- |
-| `git status` | List all *new or modified* files |
-| `git diff` | Show file differences that **haven't been** staged |
+| `title` | Title of notification |
+| `subTitle` | sub-title of notification  |
+| `smallIcon` | This use as small icon of notification, **should be andrid res address** |
+| `largeIcon` | This use as large icon of notification (Avatar), **should be andrid res address** |
+| `actionButtonOne` | First action button of notification |
+| `actionButtonTwo` | Second action button of notification |
+| `actionButtonThree` | Third action button of notification |
+| `bigPictureUrl` | Big picture **url**, notification will show after downloading picture |
+| `bigText` | Big text variable, you can set big text into it |
+| `EnumNotificationType` | If you want to use assumption notification types you can use **EnumNotificationType** |
 
 ### Here we go for implementation
 
