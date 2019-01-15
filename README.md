@@ -48,7 +48,7 @@ new MagicalNotifier.Builder(this)
                 .show();
 ```
 
-![Simple notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/notification_simple.jpg "Simple notification")
+![Simple notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple.jpg "Simple notification")
 
 2. Simple notification with avatar (res)
 
@@ -60,7 +60,20 @@ new MagicalNotifier.Builder(this)
                 .setLargeIcon(R.drawable.ic_avatar)
                 .show();
 ```
-![Simple notification with avatar](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/notification_simple_with_avatar.jpg "Simple notification with avatar")
+![Simple notification with avatar](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar.jpg "Simple notification with avatar")
+
+2. Simple notification with avatar and button (button action can open link)
+
+```java
+new MagicalNotifier.Builder(this)
+                .setNotificationType(EnumNotificationType.SIMPLE_WITH_AVATAR_AND_BUTTON)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .setLargeIcon(R.drawable.ic_avatar)
+                .setActionButtonOne(new ActionButton("Update", EnumNotificationAction.OPEN_URL, "https://www.google.com/"))
+                .show();
+```
+![Simple notification with avatar](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar_and_button.jpg "Simple notification with avatar")
 
 
 
