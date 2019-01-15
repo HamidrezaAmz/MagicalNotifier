@@ -57,6 +57,7 @@ new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.SIMPLE_WITH_AVATAR)
                 .setTitle(NOTIFICATION_TITLE)
                 .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .setLargeIcon(R.drawable.ic_avatar)
                 .show();
 ```
 ![Simple notification with avatar](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/notification_simple_with_avatar.jpg "Simple notification with avatar")
