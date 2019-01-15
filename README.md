@@ -38,6 +38,8 @@ dependencies {
 
 ### Here we go for implementation
 
+1. Simple notification
+
 ```java
 new MagicalNotifier.Builder(this)
                 .setNotificationType(EnumNotificationType.SIMPLE)
@@ -46,8 +48,17 @@ new MagicalNotifier.Builder(this)
                 .show();
 ```
 
+![Alt text](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/notification_simple.jpg "Optional title")
 
+2. Simple notification with avatar (res)
 
+```java
+new MagicalNotifier.Builder(this)
+                .setNotificationType(EnumNotificationType.SIMPLE_WITH_AVATAR)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .show();
+```
 
 
 
