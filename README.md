@@ -42,7 +42,7 @@ dependencies {
 | --- | --- |
 | `title` | Title of notification |
 | `subTitle` | sub-title of notification  |
-| `smallIcon` | This use as small icon of notification, **should be andrid res address** |
+| `smallIcon` | This use as small icon of notification, **should be android res address** |
 | `largeIcon` | This use as large icon of notification (Avatar), **should be andrid res address** |
 | `actionButtonOne` | First action button of notification |
 | `actionButtonTwo` | Second action button of notification |
