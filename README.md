@@ -36,6 +36,13 @@ dependencies {
 }
 ```
 
+### Properties
+
+| Command | Description |
+| --- | --- |
+| `git status` | List all *new or modified* files |
+| `git diff` | Show file differences that **haven't been** staged |
+
 ### Here we go for implementation
 
 1. Simple notification
