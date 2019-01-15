@@ -51,7 +51,7 @@ dependencies {
 | `actionButtonThree` | Third action button of notification |
 | `bigPictureUrl` | Big picture **url**, notification will show after downloading picture |
 | `bigText` | Big text variable, you can set big text into it |
-| `EnumNotificationType` | If you want to use assumption notification types you can use **EnumNotificationType** |
+| `EnumNotificationType` | If you want to use default notification types you can use **EnumNotificationType** |
 
 
 ### Here we go for implementation
