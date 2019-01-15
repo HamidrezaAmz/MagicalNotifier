@@ -48,7 +48,7 @@ new MagicalNotifier.Builder(this)
                 .show();
 ```
 
-![Simple notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple.jpg "Simple notification")
+![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple.jpg "notification")
 
 2. Simple notification with avatar (res)
 
@@ -60,9 +60,9 @@ new MagicalNotifier.Builder(this)
                 .setLargeIcon(R.drawable.ic_avatar)
                 .show();
 ```
-![Simple notification with avatar](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar.jpg "Simple notification with avatar")
+![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar.jpg "notification")
 
-2. Simple notification with avatar and button (button action can open link)
+3. Simple notification with avatar and button (button action can open link)
 
 ```java
 new MagicalNotifier.Builder(this)
@@ -73,7 +73,42 @@ new MagicalNotifier.Builder(this)
                 .setActionButtonOne(new ActionButton("Update", EnumNotificationAction.OPEN_URL, "https://www.google.com/"))
                 .show();
 ```
-![Simple notification with avatar](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar_and_button.jpg "Simple notification with avatar")
+![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar_and_button.jpg "notification")
+
+4. Notification with big picture
+
+```java
+new MagicalNotifier.Builder(this)
+                .setNotificationType(EnumNotificationType.BIG_PICTURE)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .setBigPictureUrl("https://www.androidhive.info/wp-content/uploads/2018/09/android-logging-using-timber-min.jpg")
+                .show();
+```
+![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_big_picture.jpg "notification")
 
 
+5. Notification with big text
 
+```java
+new MagicalNotifier.Builder(this)
+                .setNotificationType(EnumNotificationType.BIG_TEXT)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .setBigText("One of the most amazing things about Design Support Library is that we can create lively animated UIs with some simple configuration in XML. No code nor deep control about scrolls is required, so the process becomes really easy. We saw that Coordinator Layout is the central point the other components rely on to work properly, and that AppBarLayout helps the toolbar and other components to react to scroll changes. Today, I’ll show you how to use Collapsing Toolbar Layout to create awesome effects in a very easy way.")
+                .show();
+```
+![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_big_text.jpg "notification")
+
+6. Notification Smart, I recommend to use this type of notification, you can set any property that you want, then notification check your inputs and decide what to show, so you can mix notification facilities with each other. For example look at this code snippet
+
+```java
+new MagicalNotifier.Builder(this)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .setBigPictureUrl("https://www.androidhive.info/wp-content/uploads/2018/09/android-logging-using-timber-min.jpg")
+                .setActionButtonOne(new ActionButton("Update", EnumNotificationAction.OPEN_URL, "https://www.google.com/"))
+                .show();
+```
+
+![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_smart.jpg "notification")
