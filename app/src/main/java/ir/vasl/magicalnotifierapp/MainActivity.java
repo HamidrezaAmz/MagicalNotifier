@@ -22,13 +22,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button buttonSmartNotification;
     Button buttonCustomNotification;
 
-    public native String stringFromJNI();
-
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
