@@ -16,12 +16,12 @@ import android.os.Looper;
 import android.text.format.DateUtils;
 import android.widget.RemoteViews;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import ir.vasl.GlideApp;
 import ir.vasl.Utils.PublicFunctions;
 import ir.vasl.globalEnums.EnumNotificationType;
 import ir.vasl.globalObjects.ActionButton;
@@ -345,8 +345,8 @@ public class MagicalNotifier {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    GlideApp
-                            .with(context).asBitmap().load(bigPictureUrl).centerCrop()
+                    Glide
+                            .with(context).asBitmap().load(bigPictureUrl)
                             .into(new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -469,8 +469,8 @@ public class MagicalNotifier {
                     @Override
                     public void run() {
 
-                        GlideApp
-                                .with(context).asBitmap().load(bigPictureUrl).centerCrop()
+                        Glide
+                                .with(context).asBitmap().load(bigPictureUrl)
                                 .into(new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
