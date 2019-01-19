@@ -153,4 +153,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         magicalNotifier.getBuilder().notifyTitle(notificationId, "Title updated ;)");
     }
 
+    private void showNotificationWithUpdateSubTitle() {
+
+        int notificationId = 7575;
+        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+                .setNotificationId(notificationId)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .show();
+
+        // update
+        magicalNotifier.getBuilder().notifySubTitle(notificationId, "subTitle updated ;)");
+    }
+
 }
