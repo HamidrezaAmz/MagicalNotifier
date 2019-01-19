@@ -50,4 +50,10 @@
         android:layout_height="wrap_content"
         android:text="CUSTOM NOTIFICATION" />
 
+    <Button
+        android:id="@+id/button_notification_with_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WITH UPDATE" />
+
 </LinearLayout>

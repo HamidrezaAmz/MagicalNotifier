@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button buttonBigPictureNotification, buttonBigTextNotification;
     Button buttonSmartNotification;
     Button buttonCustomNotification;
+    Button buttonWithUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonSmartNotification.setOnClickListener(this);
         buttonCustomNotification = findViewById(R.id.button_custom_notification);
         buttonCustomNotification.setOnClickListener(this);
+        buttonWithUpdate = findViewById(R.id.button_notification_with_update);
+        buttonWithUpdate.setOnClickListener(this);
     }
 
     @Override
@@ -66,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_custom_notification:
                 showCustomNotification();
+                break;
+            case R.id.button_notification_with_update:
+                showNotificationWithUpdate();
                 break;
         }
     }
@@ -132,6 +138,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setTitle(NOTIFICATION_TITLE)
                 .setSubTitle(NOTIFICATION_SUB_TITLE)
                 .show();
+    }
+
+    private void showNotificationWithUpdate() {
+
+        int notificationId = 8585;
+        MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+                .setNotificationId(notificationId)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .show();
+
+        // update
+        magicalNotifier.getBuilder().notifyTitle(notificationId, "Title updated ;)");
     }
 
 }

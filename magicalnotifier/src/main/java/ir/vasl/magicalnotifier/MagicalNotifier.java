@@ -38,6 +38,7 @@ import static ir.vasl.Utils.PublicValues.NOTIFICATION_CHANNEL_SIMPLE;
 public class MagicalNotifier {
 
     private Context context;
+    private int notificationId = -1;
     private int smallIcon = -1;
     private int largeIcon = -1;
     private ActionButton actionButtonOne = null;
@@ -51,10 +52,12 @@ public class MagicalNotifier {
     private String bigText = null;
     private String bigVideoUrl = null;
 
+    private Builder builder = null;
+
     public MagicalNotifier() {
     }
 
-    public MagicalNotifier(Context context, int smallIcon, int largeIcon, ActionButton actionButtonOne, ActionButton actionButtonTwo, ActionButton actionButtonThree, EnumNotificationType notificationType, String title, String subTitle, String button, String bigPictureUrl, String bigText, String bigVideoUrl) {
+    public MagicalNotifier(Context context, int notificationId, int smallIcon, int largeIcon, ActionButton actionButtonOne, ActionButton actionButtonTwo, ActionButton actionButtonThree, EnumNotificationType notificationType, String title, String subTitle, String button, String bigPictureUrl, String bigText, String bigVideoUrl) {
         this.context = context;
         this.smallIcon = smallIcon;
         this.largeIcon = largeIcon;
@@ -70,9 +73,18 @@ public class MagicalNotifier {
         this.bigVideoUrl = bigVideoUrl;
     }
 
+    public Builder getBuilder() {
+        return builder;
+    }
+
+    private void setBuilder(Builder builder) {
+        this.builder = builder;
+    }
+
     public static class Builder {
 
         private Context context;
+        private int notificationId = -1;
         private int smallIcon = -1;
         private int largeIcon = -1;
         private ActionButton actionButtonOne;
@@ -86,8 +98,18 @@ public class MagicalNotifier {
         private String bigText;
         private String bigVideoUrl;
 
+        private NotificationCompat.Builder mBuilder;
+        private NotificationManager mNotificationManager;
+
         public Builder(Context context) {
             this.context = context;
+            this.mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE);
+            this.mNotificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        }
+
+        public Builder setNotificationId(int notificationId) {
+            this.notificationId = notificationId;
+            return this;
         }
 
         public Builder setSmallIcon(int smallIcon) {
@@ -151,7 +173,11 @@ public class MagicalNotifier {
         }
 
         public MagicalNotifier build() {
-            return new MagicalNotifier(context, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
+            MagicalNotifier magicalNotifier = new MagicalNotifier(context, notificationId, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
+
+            magicalNotifier.setBuilder(this);
+
+            return magicalNotifier;
         }
 
         public MagicalNotifier show() {
@@ -180,14 +206,22 @@ public class MagicalNotifier {
                     break;
             }
 
-            return new MagicalNotifier(context, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
+            MagicalNotifier magicalNotifier = new MagicalNotifier(context, notificationId, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
+
+            magicalNotifier.setBuilder(this);
+
+            return magicalNotifier;
         }
 
+
+        /*
+         * NOTIFICATION TYPES
+         * */
         private void showSimpleNotification() {
             if (smallIcon == -1)
                 smallIcon = R.drawable.ic_default_notification;
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+            mBuilder
                     .setSmallIcon(smallIcon)
                     .setContentTitle(title)
                     .setContentText(subTitle)
@@ -198,8 +232,6 @@ public class MagicalNotifier {
                 mBuilder.setColor(color);
             }
 
-            NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
@@ -210,7 +242,10 @@ public class MagicalNotifier {
             }
 
             // notificationId is a unique int for each notification that you must define
-            mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+            if (notificationId == -1)
+                notificationId = PublicFunctions.getNotificationID();
+
+            mNotificationManager.notify(notificationId, mBuilder.build());
         }
 
         private void showSimpleNotificationWithAvatar() {
@@ -220,7 +255,7 @@ public class MagicalNotifier {
             if (largeIcon == -1)
                 largeIcon = R.drawable.ic_default_large_notification;
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+            mBuilder
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon))
                     .setContentTitle(title)
@@ -232,9 +267,6 @@ public class MagicalNotifier {
                 mBuilder.setColor(color);
             }
 
-            NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                         NOTIFICATION_CHANNEL_NAME,
@@ -244,7 +276,10 @@ public class MagicalNotifier {
             }
 
             // notificationId is a unique int for each notification that you must define
-            mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+            if (notificationId == -1)
+                notificationId = PublicFunctions.getNotificationID();
+
+            mNotificationManager.notify(notificationId, mBuilder.build());
         }
 
         private void showSimpleNotificationWithAvatarAndButton() {
@@ -254,7 +289,7 @@ public class MagicalNotifier {
             if (largeIcon == -1)
                 largeIcon = R.drawable.ic_default_large_notification;
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+            mBuilder
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon))
                     .setContentTitle(title)
@@ -308,9 +343,6 @@ public class MagicalNotifier {
                 mBuilder.setColor(color);
             }
 
-            NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                         NOTIFICATION_CHANNEL_NAME,
@@ -320,7 +352,10 @@ public class MagicalNotifier {
             }
 
             // notificationId is a unique int for each notification that you must define
-            mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+            if (notificationId == -1)
+                notificationId = PublicFunctions.getNotificationID();
+
+            mNotificationManager.notify(notificationId, mBuilder.build());
         }
 
         private void showBigPictureNotification() {
@@ -330,7 +365,7 @@ public class MagicalNotifier {
             // NotificationCompat.BigPictureStyle bpStyle = new NotificationCompat.BigPictureStyle();
             // bpStyle.bigPicture(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_big_picture_default)).build();
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+            mBuilder
                     .setSmallIcon(smallIcon)
                     .setContentTitle(title)
                     .setContentText(subTitle)
@@ -355,9 +390,6 @@ public class MagicalNotifier {
                                     bigPictureStyle.setSummaryText(subTitle);
                                     mBuilder.setStyle(bigPictureStyle);
 
-                                    NotificationManager mNotificationManager =
-                                            (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                                                 NOTIFICATION_CHANNEL_NAME,
@@ -367,7 +399,10 @@ public class MagicalNotifier {
                                     }
 
                                     // notificationId is a unique int for each notification that you must define
-                                    mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+                                    if (notificationId == -1)
+                                        notificationId = PublicFunctions.getNotificationID();
+
+                                    mNotificationManager.notify(notificationId, mBuilder.build());
                                 }
                             });
                 }
@@ -378,7 +413,7 @@ public class MagicalNotifier {
             if (smallIcon == -1)
                 smallIcon = R.drawable.ic_default_notification;
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+            mBuilder
                     .setSmallIcon(smallIcon)
                     .setContentTitle(title)
                     .setContentText(subTitle)
@@ -390,9 +425,6 @@ public class MagicalNotifier {
                 mBuilder.setColor(color);
             }
 
-            NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                         NOTIFICATION_CHANNEL_NAME,
@@ -402,17 +434,21 @@ public class MagicalNotifier {
             }
 
             // notificationId is a unique int for each notification that you must define
-            mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+            if (notificationId == -1)
+                notificationId = PublicFunctions.getNotificationID();
+
+            mNotificationManager.notify(notificationId, mBuilder.build());
         }
 
         private void showSmartNotification() {
             if (smallIcon == -1)
                 smallIcon = R.drawable.ic_default_notification;
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE)
+            mBuilder
                     .setSmallIcon(smallIcon)
                     .setContentTitle(title)
                     .setContentText(subTitle)
+                    .setAutoCancel(true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
 
             if (largeIcon != -1)
@@ -499,9 +535,6 @@ public class MagicalNotifier {
             } else if (bigText != null) {
                 mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
 
-                NotificationManager mNotificationManager =
-                        (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                             NOTIFICATION_CHANNEL_NAME,
@@ -511,13 +544,13 @@ public class MagicalNotifier {
                 }
 
                 // notificationId is a unique int for each notification that you must define
-                mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+                if (notificationId == -1)
+                    notificationId = PublicFunctions.getNotificationID();
+
+                mNotificationManager.notify(notificationId, mBuilder.build());
 
             } else {
 
-                NotificationManager mNotificationManager =
-                        (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                             NOTIFICATION_CHANNEL_NAME,
@@ -527,7 +560,10 @@ public class MagicalNotifier {
                 }
 
                 // notificationId is a unique int for each notification that you must define
-                mNotificationManager.notify(PublicFunctions.getNotificationID(), mBuilder.build());
+                if (notificationId == -1)
+                    notificationId = PublicFunctions.getNotificationID();
+
+                mNotificationManager.notify(notificationId, mBuilder.build());
             }
         }
 
@@ -544,7 +580,7 @@ public class MagicalNotifier {
             if (smallIcon == -1)
                 smallIcon = R.drawable.ic_default_notification;
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            mBuilder
                     .setSmallIcon(smallIcon)
                     .setContentTitle(title)
                     .setContentText(subTitle)
@@ -553,9 +589,26 @@ public class MagicalNotifier {
                     .setCustomBigContentView(expandedView)
                     .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
-            NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(PublicFunctions.getNotificationID(), builder.build());
+            // notificationId is a unique int for each notification that you must define
+            if (notificationId == -1)
+                notificationId = PublicFunctions.getNotificationID();
 
+            mNotificationManager.notify(notificationId, mBuilder.build());
+
+        }
+
+        /*
+         * NOTIFIERS
+         * */
+
+        public void notifyTitle(int notificationId, String title) {
+            mBuilder.setContentTitle(title);
+            mNotificationManager.notify(notificationId, mBuilder.build());
+        }
+
+        public void notifySubTitle(int notificationId, String subTitle) {
+            mBuilder.setContentText(subTitle);
+            mNotificationManager.notify(notificationId, mBuilder.build());
         }
     }
 }
