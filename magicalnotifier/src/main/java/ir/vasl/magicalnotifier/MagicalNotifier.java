@@ -174,9 +174,7 @@ public class MagicalNotifier {
 
         public MagicalNotifier build() {
             MagicalNotifier magicalNotifier = new MagicalNotifier(context, notificationId, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
-
             magicalNotifier.setBuilder(this);
-
             return magicalNotifier;
         }
 
@@ -207,12 +205,9 @@ public class MagicalNotifier {
             }
 
             MagicalNotifier magicalNotifier = new MagicalNotifier(context, notificationId, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
-
             magicalNotifier.setBuilder(this);
-
             return magicalNotifier;
         }
-
 
         /*
          * NOTIFICATION TYPES
