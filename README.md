@@ -34,7 +34,7 @@ Step 2. Add the dependency
 
 ```gradle
 dependencies {
-    implementation 'com.github.HamidrezaAmz:MagicalNotifier:v1.0.9'
+    implementation 'com.github.HamidrezaAmz:MagicalNotifier:v1.1.4'
 }
 ```
 
