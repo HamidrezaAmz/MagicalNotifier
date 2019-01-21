@@ -130,3 +130,20 @@ new MagicalNotifier.Builder(this)
 ```
 
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_smart.jpg "notification")
+
+### Update notification title or subTitle
+If you want to update title or subTitle of a notifiaction you should pass an id for your notification and use same MagicalNotifier object, check out this example
+```java
+int notificationId = 8585;
+MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+                .setNotificationId(notificationId)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .show();
+```
+
+You can update notification
+```java
+magicalNotifier.getBuilder().notifyTitle(notificationId, "Title updated");
+```
+
