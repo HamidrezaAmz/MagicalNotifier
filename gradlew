@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+# fix JitPack's compile bug
+yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-28"
+yes | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;28.0.3"
+
 ##############################################################################
 ##
 ##  Gradle start up script for UN*X
@@ -171,6 +175,3 @@ fi
 
 exec "$JAVACMD" "$@"
 
-# fix JitPack's compile bug
-yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-28"
-yes | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;28.0.2"
