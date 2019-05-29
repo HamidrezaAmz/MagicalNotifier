@@ -56,4 +56,10 @@
         android:layout_height="wrap_content"
         android:text="WITH UPDATE" />
 
+    <Button
+        android:id="@+id/button_notification_with_open_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NOTIFICATION WITH OPENING ACTIVITY" />
+
 </LinearLayout>

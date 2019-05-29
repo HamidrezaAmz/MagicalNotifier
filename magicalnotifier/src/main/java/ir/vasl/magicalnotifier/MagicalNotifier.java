@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -16,12 +17,14 @@ import android.os.Looper;
 import android.text.format.DateUtils;
 import android.widget.RemoteViews;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import ir.vasl.Utils.PublicFunctions;
 import ir.vasl.globalEnums.EnumNotificationType;
 import ir.vasl.globalObjects.ActionButton;
@@ -51,14 +54,16 @@ public class MagicalNotifier {
     private String bigPictureUrl = null;
     private String bigText = null;
     private String bigVideoUrl = null;
+    private PendingIntent pendingIntent;
 
     private Builder builder = null;
 
     public MagicalNotifier() {
     }
 
-    public MagicalNotifier(Context context, int notificationId, int smallIcon, int largeIcon, ActionButton actionButtonOne, ActionButton actionButtonTwo, ActionButton actionButtonThree, EnumNotificationType notificationType, String title, String subTitle, String button, String bigPictureUrl, String bigText, String bigVideoUrl) {
+    public MagicalNotifier(Context context, int notificationId, int smallIcon, int largeIcon, ActionButton actionButtonOne, ActionButton actionButtonTwo, ActionButton actionButtonThree, EnumNotificationType notificationType, String title, String subTitle, String button, String bigPictureUrl, String bigText, String bigVideoUrl, PendingIntent pendingIntent) {
         this.context = context;
+        this.notificationId = notificationId;
         this.smallIcon = smallIcon;
         this.largeIcon = largeIcon;
         this.actionButtonOne = actionButtonOne;
@@ -71,6 +76,7 @@ public class MagicalNotifier {
         this.bigPictureUrl = bigPictureUrl;
         this.bigText = bigText;
         this.bigVideoUrl = bigVideoUrl;
+        this.pendingIntent = pendingIntent;
     }
 
     public Builder getBuilder() {
@@ -97,6 +103,7 @@ public class MagicalNotifier {
         private String bigPictureUrl;
         private String bigText;
         private String bigVideoUrl;
+        private PendingIntent pendingIntent;
 
         private NotificationCompat.Builder mBuilder;
         private NotificationManager mNotificationManager;
@@ -172,8 +179,13 @@ public class MagicalNotifier {
             return this;
         }
 
+        public Builder setPendingIntent(PendingIntent pendingIntent) {
+            this.pendingIntent = pendingIntent;
+            return this;
+        }
+
         public MagicalNotifier build() {
-            MagicalNotifier magicalNotifier = new MagicalNotifier(context, notificationId, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
+            MagicalNotifier magicalNotifier = new MagicalNotifier(context, notificationId, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl, pendingIntent);
             magicalNotifier.setBuilder(this);
             return magicalNotifier;
         }
@@ -204,7 +216,7 @@ public class MagicalNotifier {
                     break;
             }
 
-            MagicalNotifier magicalNotifier = new MagicalNotifier(context, notificationId, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl);
+            MagicalNotifier magicalNotifier = new MagicalNotifier(context, notificationId, smallIcon, largeIcon, actionButtonOne, actionButtonTwo, actionButtonThree, notificationType, title, subTitle, button, bigPictureUrl, bigText, bigVideoUrl, pendingIntent);
             magicalNotifier.setBuilder(this);
             return magicalNotifier;
         }
@@ -235,6 +247,9 @@ public class MagicalNotifier {
                 mNotificationManager.createNotificationChannel(channel);
                 mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             }
+
+            if (pendingIntent != null)
+                mBuilder.setContentIntent(pendingIntent);
 
             // notificationId is a unique int for each notification that you must define
             if (notificationId == -1)
@@ -346,6 +361,9 @@ public class MagicalNotifier {
                 mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             }
 
+            if (pendingIntent != null)
+                mBuilder.setContentIntent(pendingIntent);
+
             // notificationId is a unique int for each notification that you must define
             if (notificationId == -1)
                 notificationId = PublicFunctions.getNotificationID();
@@ -393,6 +411,9 @@ public class MagicalNotifier {
                                         mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
                                     }
 
+                                    if (pendingIntent != null)
+                                        mBuilder.setContentIntent(pendingIntent);
+
                                     // notificationId is a unique int for each notification that you must define
                                     if (notificationId == -1)
                                         notificationId = PublicFunctions.getNotificationID();
@@ -428,6 +449,9 @@ public class MagicalNotifier {
                 mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             }
 
+            if (pendingIntent != null)
+                mBuilder.setContentIntent(pendingIntent);
+
             // notificationId is a unique int for each notification that you must define
             if (notificationId == -1)
                 notificationId = PublicFunctions.getNotificationID();
@@ -448,6 +472,9 @@ public class MagicalNotifier {
 
             if (largeIcon != -1)
                 mBuilder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
+
+            if (pendingIntent != null)
+                mBuilder.setContentIntent(pendingIntent);
 
             if (actionButtonOne != null) {
                 switch (actionButtonOne.getEnumNotificationAction()) {
@@ -503,6 +530,11 @@ public class MagicalNotifier {
                         Glide
                                 .with(context).asBitmap().load(bigPictureUrl)
                                 .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                        super.onLoadFailed(errorDrawable);
+                                    }
+
                                     @Override
                                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle().bigPicture(resource);
@@ -584,12 +616,14 @@ public class MagicalNotifier {
                     .setCustomBigContentView(expandedView)
                     .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
+            if (pendingIntent != null)
+                mBuilder.setContentIntent(pendingIntent);
+
             // notificationId is a unique int for each notification that you must define
             if (notificationId == -1)
                 notificationId = PublicFunctions.getNotificationID();
 
             mNotificationManager.notify(notificationId, mBuilder.build());
-
         }
 
         /*

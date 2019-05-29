@@ -1,10 +1,13 @@
 package ir.vasl.magicalnotifierapp;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import ir.vasl.globalEnums.EnumNotificationAction;
 import ir.vasl.globalEnums.EnumNotificationType;
 import ir.vasl.globalObjects.ActionButton;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button buttonSmartNotification;
     Button buttonCustomNotification;
     Button buttonWithUpdate;
+    Button buttonOpenActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonCustomNotification.setOnClickListener(this);
         buttonWithUpdate = findViewById(R.id.button_notification_with_update);
         buttonWithUpdate.setOnClickListener(this);
+        buttonOpenActivity = findViewById(R.id.button_notification_with_open_activity);
+        buttonOpenActivity.setOnClickListener(this);
     }
 
     @Override
@@ -72,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_notification_with_update:
                 showNotificationWithUpdate();
+                break;
+            case R.id.button_notification_with_open_activity:
+                showSmartNotificationWithOpeningActivity();
                 break;
         }
     }
@@ -151,6 +160,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // update
         magicalNotifier.getBuilder().notifyTitle(notificationId, "Title updated ;)");
+    }
+
+    private void showSmartNotificationWithOpeningActivity() {
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0,
+                new Intent(this, MainActivity.class),
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+        new MagicalNotifier.Builder(this)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .setPendingIntent(pendingIntent)
+                .show();
     }
 
 }
