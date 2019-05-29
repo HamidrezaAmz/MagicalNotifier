@@ -34,7 +34,7 @@ Step 2. Add the dependency
 
 ```gradle
 dependencies {
-    implementation 'com.github.HamidrezaAmz:MagicalNotifier:v1.0.9'
+    implementation 'com.github.HamidrezaAmz:MagicalNotifier:v1.1.4'
 }
 ```
 
@@ -68,6 +68,7 @@ new MagicalNotifier.Builder(this)
 
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple.jpg "notification")
 
+
 2. Simple notification with avatar (res)
 
 ```java
@@ -79,6 +80,7 @@ new MagicalNotifier.Builder(this)
                 .show();
 ```
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar.jpg "notification")
+
 
 3. Simple notification with avatar and button (button action can open link)
 
@@ -92,6 +94,7 @@ new MagicalNotifier.Builder(this)
                 .show();
 ```
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar_and_button.jpg "notification")
+
 
 4. Notification with big picture
 
@@ -118,6 +121,7 @@ new MagicalNotifier.Builder(this)
 ```
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_big_text.jpg "notification")
 
+
 6. Notification Smart, I recommend to use this type of notification, you can set any property that you want, then notification check your inputs and decide what to show, so you can mix notification facilities with each other. For example look at this code snippet
 
 ```java
@@ -130,3 +134,21 @@ new MagicalNotifier.Builder(this)
 ```
 
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_smart.jpg "notification")
+
+
+### Update notification title or subTitle
+If you want to update title or subTitle of a notifiaction you should pass an id for your notification and use same MagicalNotifier object, check out this example
+```java
+int notificationId = 8585;
+MagicalNotifier magicalNotifier = new MagicalNotifier.Builder(this)
+                .setNotificationId(notificationId)
+                .setTitle(NOTIFICATION_TITLE)
+                .setSubTitle(NOTIFICATION_SUB_TITLE)
+                .show();
+```
+
+You can update notification
+```java
+magicalNotifier.getBuilder().notifyTitle(notificationId, "Title updated");
+```
+
