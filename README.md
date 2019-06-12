@@ -122,7 +122,9 @@ new MagicalNotifier.Builder(this)
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_big_text.jpg "notification")
 
 
-### 6. Notification Smart, I recommend to use this type of notification, you can set any property that you want, then notification check your inputs and decide what to show, so you can mix notification facilities with each other. For example look at this code snippet
+### 6. Notification Smart
+
+I recommend to use this type of notification, you can set any property that you want, then notification check your inputs and decide what to show, so you can mix notification facilities with each other. For example look at this code snippet
 
 ```java
 new MagicalNotifier.Builder(this)
