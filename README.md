@@ -56,7 +56,7 @@ dependencies {
 
 ### Here we go for implementation
 
-1. Simple notification
+### 1. Simple notification
 
 ```java
 new MagicalNotifier.Builder(this)
@@ -69,7 +69,7 @@ new MagicalNotifier.Builder(this)
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple.jpg "notification")
 
 
-2. Simple notification with avatar (res)
+### 2. Simple notification with avatar (res)
 
 ```java
 new MagicalNotifier.Builder(this)
@@ -82,7 +82,7 @@ new MagicalNotifier.Builder(this)
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar.jpg "notification")
 
 
-3. Simple notification with avatar and button (button action can open link)
+### 3. Simple notification with avatar and button (button action can open link)
 
 ```java
 new MagicalNotifier.Builder(this)
@@ -96,7 +96,7 @@ new MagicalNotifier.Builder(this)
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_simple_with_avatar_and_button.jpg "notification")
 
 
-4. Notification with big picture
+### 4. Notification with big picture
 
 ```java
 new MagicalNotifier.Builder(this)
@@ -109,7 +109,7 @@ new MagicalNotifier.Builder(this)
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_big_picture.jpg "notification")
 
 
-5. Notification with big text
+### 5. Notification with big text
 
 ```java
 new MagicalNotifier.Builder(this)
@@ -122,7 +122,7 @@ new MagicalNotifier.Builder(this)
 ![notification](https://raw.githubusercontent.com/HamidrezaAmz/MagicalNotifier/master/ScreenShots/notification_big_text.jpg "notification")
 
 
-6. Notification Smart, I recommend to use this type of notification, you can set any property that you want, then notification check your inputs and decide what to show, so you can mix notification facilities with each other. For example look at this code snippet
+### 6. Notification Smart, I recommend to use this type of notification, you can set any property that you want, then notification check your inputs and decide what to show, so you can mix notification facilities with each other. For example look at this code snippet
 
 ```java
 new MagicalNotifier.Builder(this)
