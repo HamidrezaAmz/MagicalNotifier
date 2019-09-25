@@ -111,6 +111,7 @@ public class MagicalNotifier {
         public Builder(Context context) {
             this.context = context;
             this.mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SIMPLE);
+            this.mBuilder.setVibrate(null);
             this.mNotificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         }
 
@@ -232,18 +233,19 @@ public class MagicalNotifier {
                     .setSmallIcon(smallIcon)
                     .setContentTitle(title)
                     .setContentText(subTitle)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+                    .setPriority(NotificationCompat.DEFAULT_ALL).setVibrate(null);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 int color = 0x008000;
                 mBuilder.setColor(color);
             }
 
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                         NOTIFICATION_CHANNEL_NAME,
-                        NotificationManager.IMPORTANCE_HIGH);
+                        NotificationManager.IMPORTANCE_LOW);
+                channel.setVibrationPattern(new long[]{0});
+                channel.enableVibration(false);
                 mNotificationManager.createNotificationChannel(channel);
                 mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             }
@@ -270,7 +272,7 @@ public class MagicalNotifier {
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon))
                     .setContentTitle(title)
                     .setContentText(subTitle)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+                    .setPriority(NotificationCompat.PRIORITY_LOW);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 int color = 0xC0C0C0;
@@ -280,7 +282,9 @@ public class MagicalNotifier {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                         NOTIFICATION_CHANNEL_NAME,
-                        NotificationManager.IMPORTANCE_HIGH);
+                        NotificationManager.IMPORTANCE_LOW);
+                channel.setVibrationPattern(new long[]{0});
+                channel.enableVibration(false);
                 mNotificationManager.createNotificationChannel(channel);
                 mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             }
@@ -374,9 +378,6 @@ public class MagicalNotifier {
         private void showBigPictureNotification() {
             if (smallIcon == -1)
                 smallIcon = R.drawable.ic_default_notification;
-
-            // NotificationCompat.BigPictureStyle bpStyle = new NotificationCompat.BigPictureStyle();
-            // bpStyle.bigPicture(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_big_picture_default)).build();
 
             mBuilder
                     .setSmallIcon(smallIcon)
